@@ -1,15 +1,31 @@
+export function renderRichText(input) {
+  if (typeof input === "string") {
+    input = JSON.parse(input);
+  }
+  return new RichText(input).render();
+}
+
 class RichText {
-  constructor(input) {
+  constructor(input, className = "") {
     this.type = input.type;
-    this.children = (input.children || []).map(child => new Types[child.type](child));
+    this.className = className;
+    this.children = (input.children || []).map(
+      (child) => new Types[child.type](child),
+    );
     this.tag = "div";
   }
 
   render() {
     const container = document.createElement(this.tag);
-    this.children.forEach(child => {
+
+    if (this.type === "root" && this.className !== "") {
+      container.classList.add(this.className);
+    }
+
+    this.children.forEach((child) => {
       container.appendChild(child.render());
     });
+
     return container;
   }
 }
@@ -44,7 +60,7 @@ class Span extends RichText {
       container.textContent = this.value;
     }
 
-    this.children.forEach(child => {
+    this.children.forEach((child) => {
       container.appendChild(child.render());
     });
 
@@ -65,7 +81,7 @@ class Link extends RichText {
     container.href = this.url;
     container.textContent = this.value;
 
-    this.children.forEach(child => {
+    this.children.forEach((child) => {
       container.appendChild(child.render());
     });
 
@@ -74,22 +90,22 @@ class Link extends RichText {
 }
 
 class Heading extends RichText {
-	constructor(input) {
-  	super(input);
-    this.tag = `h${input.level}`
+  constructor(input) {
+    super(input);
+    this.tag = `h${input.level}`;
   }
 }
 
 class List extends RichText {
-		constructor(input) {
-  	super(input);
-    this.tag = `${input.listType[0]}l`
+  constructor(input) {
+    super(input);
+    this.tag = `${input.listType[0]}l`;
   }
 }
 
 class ListItem extends RichText {
-		constructor(input) {
-  	super(input);
+  constructor(input) {
+    super(input);
     this.tag = "li";
   }
 }
@@ -101,5 +117,5 @@ const Types = {
   "link": Link,
   "heading": Heading,
   "list": List,
-  "list-item": ListItem
-}
+  "list-item": ListItem,
+};
