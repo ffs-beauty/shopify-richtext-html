@@ -1,5 +1,5 @@
 # shopify-richtext-html
-This library exists to parse [Shopify Rich Text Metafields](https://shopify.dev/docs/apps/custom-data/metafields/types#rich-text-formatting) in javascript.
+This package converts [Shopify's Rich Text Metafields](https://shopify.dev/docs/apps/custom-data/metafields/types#rich-text-formatting) to an HTMLElement.
 
 ## Usage
 ```js
