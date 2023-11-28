@@ -4,6 +4,6 @@ This package converts [Shopify's Rich Text Metafields](https://shopify.dev/docs/
 ## Usage
 ```js
 const input = {...};
-const richtext = new RichText(input);
-document.body.append(richtext.render());
+const richtext = renderRichText(input);
+document.body.append(richtext);
 ```
